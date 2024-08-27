@@ -1,2 +1,5 @@
 nose
 sphinx
+langchain
+boto3
+streamlit
