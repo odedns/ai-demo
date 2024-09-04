@@ -1,16 +1,26 @@
 import streamlit as st
-import pandas as pd
+import logging
+from bedrock_client import bedrock_client 
 
-st.title('🦜🔗 Quickstart App')
 
-##openai_api_key = st.sidebar.text_input('OpenAI API Key')
+st.title("Swagger Analyzer")
+st.header("Generates a report analyzing the input swagger")
+
+
+
+
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', encoding='utf-8', level=logging.INFO)
+model_id="amazon.titan-text-express-v1"
+client = bedrock_client(model_id)
+
 
 def generate_response(input_text):
- ## llm = OpenAI(temperature=0.7, openai_api_key=openai_api_key)
-  st.info("response")
+  response = client.analyze(input_text)    
+  logging.info("response: %s",response)
+  st.info(response)
 
 with st.form('my_form'):
-  text = st.text_area('Enter text:', 'What are the three key pieces of advice for learning how to code?')
+  text = st.text_area('Enter swagger file to analyze:')
   submitted = st.form_submit_button('Submit')
   if submitted :
     generate_response(text)
