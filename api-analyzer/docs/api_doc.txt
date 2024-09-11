@@ -1,0 +1,10 @@
+<context>I am an architect who needs to validate a swagger file based on OpenAPI 3.0 standards and according to specific rules that I set. Validation is successful only if both OpenAPI 3.0 and my rules are met. Below are the rules. Each rule has its own error levels - Critical, High, Medium and Low. Validate the swagger and create a violations report.</context>
+
+<rule level=”Critical”>a description field must be included in the API schema</rule>
+<rule level=”Low”>an externalDocs object must exist and with description field and url field</rule>
+<rule level=”High”>a description field for each method parameter is required</rule>
+<rule level=”Medium”>each method must contain a GROUP tag</rule>
+<rule level=”Critical”>the following tags are mandatory - LOB, Business Area, Service Domain, Main Process, Business Function and Technical Debt</rule>
+<swagger>
+%s
+</swagger>

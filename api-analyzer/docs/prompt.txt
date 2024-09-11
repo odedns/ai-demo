@@ -1,239 +1,265 @@
-please explain the following swagger document:
-{
-  "swagger": "2.0",
-  "info": {
-    "title": "feature.proto",
-    "version": "version not set"
-  },
-  "schemes": [
-    "http",
-    "https"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
-  "paths": {
-    "/ops/features": {
-      "get": {
-        "summary": "GET /ops/features",
-        "operationId": "ListFeatures",
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/featureListFeaturesResponse"
-            }
-          }
-        },
-        "tags": [
-          "Generic"
-        ]
-      }
-    },
-    "/ops/features/{uuid}": {
-      "put": {
-        "summary": "PUT /ops/features/:uuid",
-        "operationId": "UpdateFeature",
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/featureUpdateFeatureResponse"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/protobufStruct"
-            }
-          }
-        ],
-        "tags": [
-          "Generic"
-        ]
-      }
-    }
-  },
-  "definitions": {
-    "featureFeature": {
-      "type": "object",
-      "properties": {
-        "app_id": {
-          "type": "string",
-          "format": "string"
-        },
-        "args": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "format": "string"
-          }
-        },
-        "enabled": {
-          "type": "boolean",
-          "format": "boolean"
-        },
-        "extra_data": {
-          "$ref": "#/definitions/protobufStruct",
-          "title": "extra data can be any json data\nFor parnter(特权专区) feature it shold be\nrepeated PartnerExtra extra_data = 10"
-        },
-        "method": {
-          "$ref": "#/definitions/featureFeatureFetchMethod"
-        },
-        "requirements": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "format": "string"
-          }
-        },
-        "type": {
-          "$ref": "#/definitions/featureFeatureType"
-        },
-        "updated_at": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "uuid": {
-          "type": "string",
-          "format": "string"
-        }
-      }
-    },
-    "featureFeatureFetchMethod": {
-      "type": "string",
-      "enum": [
-        "UNKNOWN_METHOD",
-        "GET"
-      ],
-      "default": "UNKNOWN_METHOD"
-    },
-    "featureFeatureType": {
-      "type": "string",
-      "enum": [
-        "UNKNOWN_FEATURE_TYPE",
-        "URL"
-      ],
-      "default": "UNKNOWN_FEATURE_TYPE"
-    },
-    "featureListFeaturesRequest": {
-      "type": "object"
-    },
-    "featureListFeaturesResponse": {
-      "type": "object",
-      "properties": {
-        "features": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/featureFeature"
-          }
-        }
-      }
-    },
-    "featureUpdateFeatureRequest": {
-      "type": "object",
-      "properties": {
-        "extra_data": {
-          "$ref": "#/definitions/protobufStruct"
-        },
-        "token": {
-          "type": "string",
-          "format": "string"
-        },
-        "uuid": {
-          "type": "string",
-          "format": "string"
-        }
-      }
-    },
-    "featureUpdateFeatureResponse": {
-      "type": "object",
-      "properties": {
-        "feature": {
-          "$ref": "#/definitions/featureFeature"
-        }
-      }
-    },
-    "protobufListValue": {
-      "type": "object",
-      "properties": {
-        "values": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/protobufValue"
-          },
-          "description": "Repeated field of dynamically typed values."
-        }
-      },
-      "description": "`ListValue` is a wrapper around a repeated field of values.\n\nThe JSON representation for `ListValue` is JSON array."
-    },
-    "protobufNullValue": {
-      "type": "string",
-      "enum": [
-        "NULL_VALUE"
-      ],
-      "default": "NULL_VALUE",
-      "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\n The JSON representation for `NullValue` is JSON `null`.\n\n - NULL_VALUE: Null value."
-    },
-    "protobufStruct": {
-      "type": "object",
-      "properties": {
-        "fields": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/protobufValue"
-          },
-          "description": "Unordered map of dynamically typed values."
-        }
-      },
-      "description": "`Struct` represents a structured data value, consisting of fields\nwhich map to dynamically typed values. In some languages, `Struct`\nmight be supported by a native representation. For example, in\nscripting languages like JS a struct is represented as an\nobject. The details of that representation are described together\nwith the proto support for the language.\n\nThe JSON representation for `Struct` is JSON object."
-    },
-    "protobufValue": {
-      "type": "object",
-      "properties": {
-        "bool_value": {
-          "type": "boolean",
-          "format": "boolean",
-          "description": "Represents a boolean value."
-        },
-        "list_value": {
-          "$ref": "#/definitions/protobufListValue",
-          "description": "Represents a repeated `Value`."
-        },
-        "null_value": {
-          "$ref": "#/definitions/protobufNullValue",
-          "description": "Represents a null value."
-        },
-        "number_value": {
-          "type": "number",
-          "format": "double",
-          "description": "Represents a double value."
-        },
-        "string_value": {
-          "type": "string",
-          "format": "string",
-          "description": "Represents a string value."
-        },
-        "struct_value": {
-          "$ref": "#/definitions/protobufStruct",
-          "description": "Represents a structured value."
-        }
-      },
-      "description": "`Value` represents a dynamically typed value which can be either\nnull, a number, a string, a boolean, a recursive struct value, or a\nlist of values. A producer of value is expected to set one of that\nvariants, absence of any variant indicates an error.\n\nThe JSON representation for `Value` is JSON value."
-    }
-  }
-}
+definitions:
+  main.Error:
+    properties:
+      error:
+        type: string
+      error_debug:
+        type: string
+      error_description:
+        type: string
+      status_code:
+        type: integer
+    type: object
+  model.Account:
+    properties:
+      id:
+        example: 1
+        format: int64
+        type: integer
+      name:
+        example: account name
+        type: string
+      some_number:
+        example: 1234
+        type: integer
+      uuid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        format: uuid
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /api/v1/examples/attribute:
+    get:
+      description: attribute
+      parameters:
+      - default: A
+        description: string default
+        in: query
+        name: default
+        type: string
+      - description: int enums
+        enum:
+        - 1
+        - 2
+        - 3
+        in: query
+        name: enumint
+        type: integer
+      - description: int enums
+        enum:
+        - 1.1
+        - 1.2
+        - 1.3
+        in: query
+        name: enumnumber
+        type: number
+      - description: string enums
+        enum:
+        - A
+        - B
+        - C
+        in: query
+        name: enumstring
+        type: string
+      - description: int valid
+        in: query
+        maximum: 10
+        minimum: 1
+        name: int
+        type: integer
+      - description: string valid
+        in: query
+        maxLength: 10
+        minLength: 5
+        name: string
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: answer
+          schema:
+            type: string
+        "400":
+          description: ok
+          schema:
+            type: string
+        "404":
+          description: ok
+          schema:
+            type: string
+      summary: attribute example
+      tags:
+      - example
+  /api/v1/examples/calc:
+    get:
+      parameters:
+      - description: used for calc
+        in: query
+        name: val1
+        required: true
+        type: integer
+      - description: used for calc
+        in: query
+        name: val2
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "203":
+          description: ""
+          schema:
+            type: string
+        "400":
+          description: ""
+          schema:
+            type: string
+        "404":
+          description: ""
+          schema:
+            type: string
+  /api/v1/examples/groups/{group_id}/accounts/{account_id}:
+    get:
+      description: path params
+      parameters:
+      - description: Account ID
+        in: path
+        name: account_id
+        required: true
+        type: integer
+      - description: Group ID
+        in: path
+        name: group_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: string
+        "400":
+          description: ""
+          schema:
+            type: string
+        "404":
+          description: ""
+          schema:
+            type: string
+      summary: path params example
+      tags:
+      - example
+  /api/v1/examples/header:
+    get:
+      description: custome header
+      parameters:
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: string
+        "400":
+          description: ""
+          schema:
+            type: string
+        "404":
+          description: ""
+          schema:
+            type: string
+      summary: custome header example
+      tags:
+      - example
+  /api/v1/examples/ping:
+    get:
+      description: do ping
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: string
+        default:
+          description: ""
+          schema:
+            type: string
+      summary: ping example
+      tags:
+      - example
+  /api/v1/examples/post:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: '#/definitions/model.Account'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/model.Account'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/main.Error'
+  /api/v1/examples/securities:
+    get:
+      description: custome header
+      parameters:
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: string
+        "400":
+          description: ""
+          schema:
+            type: string
+        "404":
+          description: ""
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: custome header example
+      tags:
+      - example
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
